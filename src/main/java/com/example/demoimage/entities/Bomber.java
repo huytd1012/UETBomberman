@@ -30,29 +30,71 @@ public class Bomber extends Entity {
         this.img = sprite.getFxImage();
 
     }
-
+    static String last = "";
     public void handleMovement() {
         if (Input.left) {
-            if (i % 30 == 0) {
+            if (this.x % 32 == 0) {
                 changeImg(Sprite.player_left);
-            }
-            if (i % 30 == 10) {
+                last = "left";
+            }else if (this.x % 32 == 10) {
                 changeImg(Sprite.player_left_1);
-            }
-            if (i % 30 == 20) {
+                last = "left_1";
+            }else if (this.x % 32 == 20) {
                 changeImg(Sprite.player_left_2);
+                last = "left_2";
             }
         }
+        if (!Input.left && (last.equals("left_1") || last.equals("left_2"))) {
+            changeImg(Sprite.player_left);
+            last = "left";
+        }
         if (Input.right) {
-            if (i % 30 == 0) {
+            if (this.x % 32 == 0) {
                 changeImg(Sprite.player_right);
-            }
-            if (i % 30 == 10) {
+                last = "right";
+            }else if (this.x % 32 == 10) {
                 changeImg(Sprite.player_right_1);
-            }
-            if (i % 30 == 20) {
+                last = "right_1";
+            }else if (this.x % 32 == 20) {
                 changeImg(Sprite.player_right_2);
+                last = "right_2";
             }
+        }
+        if (!Input.right && (last.equals("right_1") || last.equals("right_2"))) {
+            changeImg(Sprite.player_right);
+            last = "right";
+        }
+        if (!Input.left && !Input.right && Input.up) {
+            if (this.y % 32 == 0) {
+                changeImg(Sprite.player_up);
+                last = "up";
+            }else if (this.y % 32 == 10) {
+                changeImg(Sprite.player_up_1);
+                last = "up_1";
+            }else if (this.y % 32 == 20) {
+                changeImg(Sprite.player_up_2);
+                last = "up_2";
+            }
+        }
+        if (!Input.up && (last.equals("up_1") || last.equals("up_2"))) {
+            changeImg(Sprite.player_up);
+            last = "up";
+        }
+        if (!Input.left && !Input.right && Input.down) {
+            if (this.y % 32 == 0) {
+                changeImg(Sprite.player_down);
+                last = "down";
+            }else if (this.y % 32 == 10) {
+                changeImg(Sprite.player_down_1);
+                last = "down_1";
+            }else if (this.y % 32 == 20) {
+                changeImg(Sprite.player_down_2);
+                last = "down_2";
+            }
+        }
+        if (!Input.down && (last.equals("down_1") || last.equals("down_2"))) {
+            changeImg(Sprite.player_down);
+            last = "down";
         }
 
     }
@@ -72,12 +114,10 @@ public class Bomber extends Entity {
         }
     }
 
-    public static int i = 0;
+
     @Override
     public void update() {
-//        changeImg();
         handleMovement();
-        i++;
         this.move();
     }
 
@@ -88,16 +128,15 @@ public class Bomber extends Entity {
 //                    System.out.println("left");
                     return "left";
                 }
-                 if (Input.right && this.x + this.img.getWidth() == entity.x && this.y < entity.y+img.getHeight() && this.y > entity.y-img.getHeight()) {
-                    System.out.println("right");
-//                    System.out.println(entity.x);
+                 if (Input.right && this.x + this.img.getWidth() -1 == entity.x && this.y < entity.y+img.getHeight() && this.y > entity.y-img.getHeight()) {
+//                    System.out.println("right");
                     return "right";
                 }
                  if (Input.up && this.y == entity.y + img.getHeight() && this.x < entity.x+img.getWidth() && this.x > entity.x-img.getWidth()) {
 //                    System.out.println("up");
                     return "up";
                 }  if (Input.down && this.y + img.getHeight() == entity.y && this.x < entity.x+img.getWidth() && this.x > entity.x-img.getWidth()) {
-                    System.out.println("down");
+//                    System.out.println("down");
                     return "down";
                 }
             }
