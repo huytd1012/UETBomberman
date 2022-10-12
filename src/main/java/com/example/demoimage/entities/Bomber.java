@@ -100,16 +100,16 @@ public class Bomber extends Entity {
     }
     public void move() {
 //        collision(GameViewManager.walls);
-        if (Input.left && !Objects.equals(collision(GameViewManager.walls), "left")) {
+        if (Input.left && !collision(GameViewManager.walls)) {
             x = x - speed;
         }
-        if (Input.right && !Objects.equals(collision(GameViewManager.walls), "right")) {
+        if (Input.right && !collision(GameViewManager.walls)) {
             x = x + speed;
         }
-        if (Input.up && !Objects.equals(collision(GameViewManager.walls), "up")) {
+        if (Input.up && !collision(GameViewManager.walls)) {
             y = y - speed;
         }
-        if (Input.down && !Objects.equals(collision(GameViewManager.walls), "down")) {
+        if (Input.down && !collision(GameViewManager.walls)) {
             y += speed;
         }
     }
@@ -121,27 +121,27 @@ public class Bomber extends Entity {
         this.move();
     }
 
-    public String collision(List<Entity> entities) {
+    public boolean collision(List<Entity> entities) {
         for (Entity entity : entities) {
             if (entity instanceof Wall) {
                 if (Input.left && this.x == entity.x + img.getWidth() && this.y < entity.y+img.getHeight() && this.y > entity.y-img.getHeight()) {
 //                    System.out.println("left");
-                    return "left";
+                    return true;
                 }
-                 if (Input.right && this.x + this.img.getWidth() -1 == entity.x && this.y < entity.y+img.getHeight() && this.y > entity.y-img.getHeight()) {
+                 if (Input.right && this.x + this.img.getWidth() - 10 == entity.x && this.y < entity.y+img.getHeight() && this.y > entity.y-img.getHeight()) {
 //                    System.out.println("right");
-                    return "right";
+                    return true;
                 }
-                 if (Input.up && this.y == entity.y + img.getHeight() && this.x < entity.x+img.getWidth() && this.x > entity.x-img.getWidth()) {
+                 if (Input.up && this.y == entity.y + img.getHeight() && this.x < entity.x+img.getWidth() && this.x + this.img.getWidth()-10 > entity.x) {
 //                    System.out.println("up");
-                    return "up";
-                }  if (Input.down && this.y + img.getHeight() == entity.y && this.x < entity.x+img.getWidth() && this.x > entity.x-img.getWidth()) {
+                    return true;
+                }  if (Input.down && this.y + img.getHeight() == entity.y && this.x < entity.x+img.getWidth() && this.x -10> entity.x-img.getWidth()) {
 //                    System.out.println("down");
-                    return "down";
+                    return true;
                 }
             }
         }
-        return "";
+        return false;
     }
 
 }
